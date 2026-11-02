@@ -46,6 +46,16 @@
                 "weight": 1
               },
               "min": 90
+            },
+            {
+              "id": "agent-limits",
+              "type": "block",
+              "content": {
+                "mod": "agent-limits"
+              },
+              "size": {
+                "px": 106
+              }
             }
           ]
         },
@@ -185,9 +195,9 @@
     16
   ],
   "theme": {
-    "light": "paper-black",
+    "light": "paper-dark-terminal",
     "dark": "graphite"
   },
   "terminal_opacity": 0,
-  "preview": "layouts/paper-black.svg"
+  "preview": "layouts/paper-dark-terminal.svg"
 }

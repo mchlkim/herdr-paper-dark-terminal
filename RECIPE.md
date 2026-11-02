@@ -1,8 +1,8 @@
-# Paper Black
+# Paper Dark Terminal
 
 Herdr's main layout in light paper colors, with every terminal on a near-black card. The sidebar, tab bar, status bar, pane headers and the Files and Changes panels stay light. Only the terminal area under each pane header is dark, with light text and a blue block cursor. In dark appearance it shows Herdr's graphite theme, and the terminal area is the same near-black.
 
-![Paper Black](preview.png)
+![Paper Dark Terminal](preview.png)
 
 ## What you see
 
@@ -35,15 +35,15 @@ It behaves exactly like Herdr's main layout; only the colors differ.
 
 ## Built from
 
-- `layouts/paper-black.json`: a copy of Herdr's `main` layout (app 0.1.11) with four changes:
-  - root `"theme": { "light": "paper-black", "dark": "graphite" }`;
+- `layouts/paper-dark-terminal.json`: a copy of Herdr's `main` layout (app 0.1.11) with four changes:
+  - root `"theme": { "light": "paper-dark-terminal", "dark": "graphite" }`;
   - root `"terminal_opacity": 0`;
   - the tab block's `pane.background` set to `"#0e0f11"` (main uses `"background"`);
-  - root `"preview": "layouts/paper-black.svg"`.
+  - root `"preview": "layouts/paper-dark-terminal.svg"`.
 - Node tree: root `row` → `sidebar` column (`brand` block with `workspace-chrome`; `sidebar-lists` column with `spaces` and `agents` blocks; `sidebar-footer` block with `workspace-chrome` and props `{ "footer": true }`) and `work` column (`tabs` block with `tabs`; `work-body` row with the `main` block `{ "tab": "active" }` and the `panel` column holding the `panel-body` stack of `files` and `changes`; `status` block with `workspace-status`).
 - Shipped mods only: `workspace-chrome`, `spaces`, `agents`, `tabs`, `pane` (the pane header), `files`, `changes`, `workspace-status`. No mods of its own, no programs, no network, no files read.
-- `themes/paper-black.json`: top-level `background` `#ffffff`, `foreground` (terminal text) `#d4d6db`, `selection`, `cursor` and the 16 ANSI colors, plus `colors` set to paper's panel colors. The theme has the layout's name, so Settings offers it only while this layout is shown.
-- `layouts/paper-black.svg`: the picture in Settings → Look.
+- `themes/paper-dark-terminal.json`: top-level `background` `#ffffff`, `foreground` (terminal text) `#d4d6db`, `selection`, `cursor` and the 16 ANSI colors, plus `colors` set to paper's panel colors. The theme has the layout's name, so Settings offers it only while this layout is shown.
+- `layouts/paper-dark-terminal.svg`: the picture in Settings → Look.
 
 ## Watch out
 
@@ -53,16 +53,18 @@ It behaves exactly like Herdr's main layout; only the colors differ.
 - Herdr draws the character under the block cursor, and reverse-video cells (SGR 7), in the theme `background`, which is white here. The cursor is `#2f6fe4` so a white character on it reads (4.65:1). Reverse video with default colors stays white on `#d4d6db` (about 1.5:1) and is hard to read, for example `less`'s `(END)` and search highlights. No setting fixes this today.
 - Keep `minimum_contrast` at `1`. It measures against the white `background`, so any higher value that fixes reverse video also turns normal terminal text near-black on the dark card.
 - OSC 11 (set default background) sent by a program does not fix reverse video either.
+- Herdr answers a background query (`ESC ] 11 ; ? BEL`) with `rgb:ffff/ffff/ffff`, the white theme `background`. Programs that pick colors from it treat the terminal as light. Codex then draws its input box light gray, and the `#d4d6db` text on it is hard to read. After the terminal receives `ESC ] 11 ; #0e0f11 BEL`, Herdr answers `rgb:0e0e/0f0f/1111` and nothing on screen changes. So the shell sends it at startup, only inside Herdr terminals (`HC_TERMINAL_ID` is set) and only while this layout is shown (`"layout":"paper-dark-terminal"` in `~/.config/herdr-app/shared.json`); see the README for the snippet. Herdr starts agents through `zsh -lic`, so it runs before them. A terminal keeps the reported color after a layout switch.
 - ANSI 1 to 6 are also panel text colors (Files syntax colors, Changes `+`/`−` counts), so they are mid-brightness: about 4:1 on white and 4.7:1 on `#0e0f11`. ANSI 9 to 14 are graphite's brighter set and used only by terminals.
-- A copy of `main` made with `layout.clone` also copies main's theme clicks (`{ "light": "paper", "dark": "graphite" }`), which win over the file. Pick "paper black" once in Settings → Look on this layout, or run `herdr-app do app.theme '{"name":"paper-black"}'`.
+- A copy of `main` made with `layout.clone` also copies main's theme clicks (`{ "light": "paper", "dark": "graphite" }`), which win over the file. Pick "paper dark terminal" once in Settings → Look on this layout, or run `herdr-app do app.theme '{"name":"paper-dark-terminal"}'`.
 - It is a copy of main from app 0.1.11 and does not get main's later changes.
 
 ## Done when
 
-- After `herdr-app do layout.switch '{"name":"paper-black"}'`, `herdr-app status` shows `"layout": "paper-black"` and no errors.
+- After `herdr-app do layout.switch '{"name":"paper-dark-terminal"}'`, `herdr-app status` shows `"layout": "paper-dark-terminal"` and no errors.
 - In light appearance the sidebar is `#f1f1ee`, the tab bar and status bar are light, each pane header is white, and the terminal area below it is `#0e0f11` with `#d4d6db` text.
 - `printf '\e[31mred \e[32mgreen \e[33myellow \e[34mblue\e[0m\n'` reads clearly on the dark card.
 - With the cursor over a character, the cursor is a `#2f6fe4` block and the character on it is readable.
 - The Files panel opens on a white card with dark text.
-- Settings → Look lists the theme "paper black" only while this layout is shown.
+- Settings → Look lists the theme "paper dark terminal" only while this layout is shown.
 - In dark appearance the window shows graphite, with the terminal area `#0e0f11`.
+- With the shell snippet in place, a background query in a new Herdr terminal answers `rgb:0e0e/0f0f/1111`, and Codex's input box is dark gray with readable text.
