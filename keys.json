@@ -1,0 +1,7 @@
+{
+  "mod:file-viewer": {
+    "cmd-s": "file-viewer.save",
+    "cmd-shift-v": "file-viewer.preview",
+    "ctrl-w": "file-viewer.close"
+  }
+}

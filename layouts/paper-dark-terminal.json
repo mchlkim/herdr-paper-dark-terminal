@@ -54,7 +54,7 @@
                 "mod": "agent-limits"
               },
               "size": {
-                "px": 106
+                "px": 134
               }
             }
           ]
@@ -141,7 +141,7 @@
                       "id": "files",
                       "type": "block",
                       "content": {
-                        "mod": "files"
+                        "mod": "my-files"
                       }
                     },
                     {
@@ -181,10 +181,15 @@
     }
   ],
   "background": "canvas",
+  "theme": {
+    "light": "paper-dark-terminal",
+    "dark": "graphite"
+  },
   "terminal_padding": [
     14,
     12
   ],
+  "terminal_opacity": 0,
   "divider": {
     "width": 1,
     "color": "border"
@@ -194,10 +199,5 @@
     12,
     16
   ],
-  "theme": {
-    "light": "paper-dark-terminal",
-    "dark": "graphite"
-  },
-  "terminal_opacity": 0,
   "preview": "layouts/paper-dark-terminal.svg"
 }

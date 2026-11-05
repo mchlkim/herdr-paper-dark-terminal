@@ -1,52 +1,77 @@
 # Paper Dark Terminal
 
-Herdr's main layout in light paper colors, with every terminal on a near-black card. The sidebar, tab bar, status bar, pane headers and the Files and Changes panels stay light. Only the terminal area under each pane header is dark, with light text and a blue block cursor. In dark appearance it shows Herdr's graphite theme, and the terminal area is the same near-black.
+A light, paper-colored Herdr window with dark terminal cards. The sidebar and panels are
+off-white and quiet; each terminal pane is a near-black card with a thin border, so the
+terminal is the only dark thing on screen. The sidebar adds a Limits block under the Agents
+list, and the Files panel on the right is a file explorer that opens files in their own tabs
+and has a right-click menu.
 
 ![Paper Dark Terminal](preview.png)
 
 ## What you see
 
-Left to right, in light appearance:
+Left to right:
 
-- **Sidebar**, 268px wide (44 to 480px), background `chrome` `#f1f1ee`, separated by a 1px `border` (`#00000017`) divider. From top to bottom:
-  - the brand row, 46px: the Herdr logo, search and sidebar-fold buttons;
-  - the Spaces list and the Agents list, sharing the rest of the height equally (each at least 90px);
-  - the footer, 69px: Settings and Add machine.
-- **Work column**, background `canvas` `#fafaf9`:
-  - the tab bar, 42px: tabs as pills, a `+` menu, and Files and Changes buttons on the right;
-  - the work body, 8px padding and 8px gaps: the panes of the shown tab, and an optional side panel on the right;
-  - the status bar, 28px: machine, branch and agent count.
-- **Pane cards**: radius 10px, 8px gap between panes, 1px `#00000017` border, 1px accent `#1f62d0` border on the focused pane. Every pane is framed, even a tab's only pane. Each card has a 30px white header on top: the terminal's title, its folder, the agent's status, and split, zoom and close buttons. Below the header the terminal area is `#0e0f11`, with 14px by 12px terminal padding.
-- **Terminal colors**: text `#d4d6db`, cursor `#2f6fe4`, selection `#2f4a6e`. ANSI 0 to 15: `#45484f #d6525a #368f45 #a3761d #377fdc #aa5fca #2a8b91 #c8cad0 #838790 #f0a5ad #bad5a2 #ead2a1 #b0cbef #cbb7e6 #a4d5db #f2f2f4`.
-- **Side panel**, 368px (280 to 900px), hidden until opened: the Files tree or the Changes list, on white cards with dark text.
-- **Panel text and accents** are paper's: foreground `#1b1b1e`, muted `#69696b`, dim `#969698`, accent `#1f62d0`, popovers `#ffffff`.
+- **Sidebar**, 268px wide (min 44, max 480, not resizable), background theme `chrome`
+  (`#f1f1ee`). Top to bottom:
+  - Brand bar, 46px, shipped `workspace-chrome` mod; drags the window. The macOS traffic
+    lights sit at x 12, y 16 (`titlebar: "none"`).
+  - Spaces list (shipped `spaces`) and Agents list (shipped `agents`), equal weight, min 90px each.
+  - Limits, 134px, the `agent-limits` mod: one line per coding agent with its usage windows
+    (5h / 7d / 30d bars and percentages).
+  - Footer, 69px, `workspace-chrome` with `props: { footer: true }` (Settings, Add machine).
+- **Work column**, filling the rest:
+  - Tab bar, 42px, shipped `tabs`; drags the window.
+  - Body row with 8px padding and 8px gap:
+    - The active tab's panes. Each pane is a card: background `#0e0f11`, 1px `border`
+      outline, 1px `accent` (`#1f62d0`) outline when focused, radius 10, 8px between panes,
+      card shown even for a lone pane. A 30px `pane` header is always shown on top.
+    - The right panel, 368px (min 280, max 900), hidden until opened from the tab bar's
+      Files / Changes buttons. A stack of `my-files` (active) and shipped `changes`.
+  - Status bar, 28px, shipped `workspace-status`.
 
-In dark appearance the theme is `graphite`. The terminal area stays `#0e0f11`, slightly darker than graphite's own cards.
+Window background is `canvas` (`#fafaf9`); dividers are 1px `border`. Terminal padding is
+14px horizontal, 12px vertical, and `terminal_opacity` is 0 so the card color shows through.
+
+Theme `paper-dark-terminal` (light): background/surface/popover `#ffffff`, canvas `#fafaf9`,
+chrome `#f1f1ee`, raised `#f6f6f6`, foreground `#1b1b1e`, muted `#69696b`, dim `#969698`,
+accent `#1f62d0`, border `#00000017`, hover `#0000000c`, selected `#00000012`, working
+`#9a6700`, blocked `#c93c2c`, done `#2f6fe4`, idle `#a8a8aa`. Terminal text `#d4d6db`,
+selection `#2f4a6e`, cursor `#2f6fe4`, ANSI 0-15 `#45484f #d6525a #368f45 #a3761d #377fdc
+#aa5fca #2a8b91 #c8cad0 #838790 #f0a5ad #bad5a2 #ead2a1 #b0cbef #cbb7e6 #a4d5db #f2f2f4`.
+In dark appearance the layout uses the shipped `graphite` theme.
 
 ## How it behaves
 
-It behaves exactly like Herdr's main layout; only the colors differ.
+Everything behaves like Herdr's shipped `main` layout (spaces, agents and their statuses,
+tabs, panes, the Changes panel), with two replacements:
 
-- Agent status in the Agents list uses the theme colors: working is a spinning icon in `#9a6700`; blocked is a "Needs you" badge in `#c93c2c` on a tint of the same color; done is a filled `#2f6fe4` dot; idle is a `#a8a8aa` ring.
-- The fold button in the brand row turns the sidebar into a narrow rail (76px on macOS, 44px elsewhere) and back.
-- The Files and Changes buttons in the tab bar open the side panel. Which panel is open is remembered per space.
-- Panes can be split, zoomed, closed and dragged by their top-center grip, as in main.
-- Light or dark follows the system, or `appearance` in `settings.json`.
+- The Files panel is `my-files` from the File Explorer mod: click a file to open it in its
+  own tab (`file-viewer`), Cmd-click to open it in the default app, right-click for a menu
+  (`file-menu`), and the header eye button hides dotfiles. See that mod's RECIPE.
+- The Limits block is the Agent Limits mod. See its RECIPE.
 
 ## Built from
 
-- `layouts/paper-dark-terminal.json`: a copy of Herdr's `main` layout (app 0.1.11) with four changes:
-  - root `"theme": { "light": "paper-dark-terminal", "dark": "graphite" }`;
-  - root `"terminal_opacity": 0`;
-  - the tab block's `pane.background` set to `"#0e0f11"` (main uses `"background"`);
-  - root `"preview": "layouts/paper-dark-terminal.svg"`.
-- Node tree: root `row` → `sidebar` column (`brand` block with `workspace-chrome`; `sidebar-lists` column with `spaces` and `agents` blocks; `sidebar-footer` block with `workspace-chrome` and props `{ "footer": true }`) and `work` column (`tabs` block with `tabs`; `work-body` row with the `main` block `{ "tab": "active" }` and the `panel` column holding the `panel-body` stack of `files` and `changes`; `status` block with `workspace-status`).
-- Shipped mods only: `workspace-chrome`, `spaces`, `agents`, `tabs`, `pane` (the pane header), `files`, `changes`, `workspace-status`. No mods of its own, no programs, no network, no files read.
-- `themes/paper-dark-terminal.json`: top-level `background` `#ffffff`, `foreground` (terminal text) `#d4d6db`, `selection`, `cursor` and the 16 ANSI colors, plus `colors` set to paper's panel colors. The theme has the layout's name, so Settings offers it only while this layout is shown.
-- `layouts/paper-dark-terminal.svg`: the picture in Settings → Look.
+- `layouts/paper-dark-terminal.json`: a clone of shipped `main` v0.1.11 with the
+  `agent-limits` block (id `agent-limits`, `{ px: 134 }`) added as the third child of
+  `sidebar-lists`, the files block's mod changed from `files` to `my-files`, the pane
+  `background` set to `#0e0f11`, `terminal_opacity: 0`, and
+  `theme: { light: "paper-dark-terminal", dark: "graphite" }`.
+- `layouts/paper-dark-terminal.svg`: the layout picker's preview.
+- `themes/paper-dark-terminal.json`: the colors above.
+- Mods in this repo: `my-files`, `file-viewer`, `file-menu` (File Explorer) and
+  `agent-limits` (Agent Limits). Shipped mods used: `workspace-chrome`, `spaces`, `agents`,
+  `tabs`, `pane`, `changes`, `workspace-status`.
+- `keys.json`: the `mod:file-viewer` section (cmd-s save, cmd-shift-v preview, ctrl-w close).
+  Merge it into yours.
 
 ## Watch out
 
+- `agent-limits` reads coding-agent credentials and calls their usage endpoints; read its
+  RECIPE's Watch out before installing. Remove the block from the layout if you don't want it.
+- Keep the node ids `sidebar` and `agent-limits`: the Limits mod sizes its own block by id.
+- The right panel starts hidden; the tab bar's Files button shows it.
 - The terminal's default background is the theme color `background`. Herdr uses the same color for pane headers, the Files and Changes panels and the input fields in the palette, pickers and dialogs. Keep it `#ffffff`. The black comes from the pane frame (`#0e0f11`) showing through a transparent terminal (`terminal_opacity: 0`). Setting `colors.background` dark makes those panels and inputs dark with dark text.
 - In the theme file, the top-level `background` decides whether the theme counts as light. It does not change terminal rendering. Keep it `#ffffff`, or the theme moves to the dark list.
 - The top-level `foreground` becomes `terminal_foreground` (terminal text). `colors.foreground` is the panel text. They are deliberately different.
@@ -60,11 +85,9 @@ It behaves exactly like Herdr's main layout; only the colors differ.
 
 ## Done when
 
-- After `herdr-app do layout.switch '{"name":"paper-dark-terminal"}'`, `herdr-app status` shows `"layout": "paper-dark-terminal"` and no errors.
-- In light appearance the sidebar is `#f1f1ee`, the tab bar and status bar are light, each pane header is white, and the terminal area below it is `#0e0f11` with `#d4d6db` text.
-- `printf '\e[31mred \e[32mgreen \e[33myellow \e[34mblue\e[0m\n'` reads clearly on the dark card.
-- With the cursor over a character, the cursor is a `#2f6fe4` block and the character on it is readable.
-- The Files panel opens on a white card with dark text.
-- Settings → Look lists the theme "paper dark terminal" only while this layout is shown.
-- In dark appearance the window shows graphite, with the terminal area `#0e0f11`.
-- With the shell snippet in place, a background query in a new Herdr terminal answers `rgb:0e0e/0f0f/1111`, and Codex's input box is dark gray with readable text.
+- `herdr-app check` passes for each mod and `layout.switch {name: "paper-dark-terminal"}` shows
+  the window above: off-white sidebar and panels, near-black terminal cards with a blue
+  outline on the focused one.
+- The sidebar shows a Limits block under Agents.
+- Opening Files shows the folder of the focused pane; clicking a file opens a `file-viewer`
+  tab; right-clicking a row opens the file menu.

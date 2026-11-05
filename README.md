@@ -4,15 +4,23 @@ A layout for the [Herdr](https://herdr.dev) desktop app: Herdr's main layout in 
 
 ![Paper Dark Terminal](preview.png)
 
+It also brings two mods, each published on its own too:
+
+- [File Explorer](https://github.com/mchlkim/herdr-file-explorer) in the Files panel (`my-files`, `file-viewer`, `file-menu`): files open in their own tabs, rows have a right-click menu, and an eye button hides dotfiles.
+- [Agent Limits](https://github.com/mchlkim/herdr-agent-limits) under the Agents list. It reads your coding agents' sign-ins and asks their usage endpoints; read its README before installing, or delete the `agent-limits` block from the layout.
+
 ## Install
 
-Ask your agent to add this repo as a Herdr layout, or copy the files yourself:
+Ask your agent to add this repo as a Herdr layout, or copy the files yourself. Rename any mod folder whose name you already use, and its `mod` name in the layout:
 
 ```sh
 cp layouts/paper-dark-terminal.json layouts/paper-dark-terminal.svg ~/.config/herdr-app/layouts/
 cp themes/paper-dark-terminal.json ~/.config/herdr-app/themes/
+cp -R mods/* ~/.config/herdr-app/mods/
 herdr-app do layout.switch '{"name":"paper-dark-terminal"}'
 ```
+
+Merge `keys.json` (the file viewer's save, preview and close keys) into `~/.config/herdr-app/keys.json`.
 
 Use light appearance to see it. In dark appearance it shows Herdr's graphite theme with a near-black terminal area.
 
